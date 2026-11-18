@@ -1,0 +1,8 @@
+{% extends "predictor/base.html" %}
+{% block content %}
+<div class="card"><h2>Recent predictions</h2>
+<table><thead><tr><th>Student</th><th>ID</th><th>Attendance</th><th>Tests</th><th>Assignments</th><th>Classwork</th><th>Score</th><th>Grade</th></tr></thead><tbody>
+{% for r in records %}<tr><td>{{ r.student_name }}</td><td>{{ r.student_id|default:"—" }}</td><td>{{ r.attendance }}</td><td>{{ r.unit_tests }}</td><td>{{ r.assignments }}</td><td>{{ r.classwork }}</td><td>{{ r.predicted_score|default:"—" }}</td><td>{{ r.predicted_grade|default:"—" }}</td></tr>
+{% empty %}<tr><td colspan="8">No predictions saved yet.</td></tr>{% endfor %}
+</tbody></table><a class="nav" href="{% url 'predict_grade' %}">New prediction</a></div>
+{% endblock %}

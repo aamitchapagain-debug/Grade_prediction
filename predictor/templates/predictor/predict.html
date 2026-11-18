@@ -1,0 +1,22 @@
+{% extends "predictor/base.html" %}
+{% block content %}
+<div class="card">
+<h2>Enter student performance</h2>
+<p class="small">Enter each value as a percentage from 0 to 100. The output is an estimate, not a final grade.</p>
+<form method="post">{% csrf_token %}
+<div class="grid">
+{% for field in form %}
+<div><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% if field.help_text %}<p class="small">{{ field.help_text }}</p>{% endif %}{{ field.errors }}</div>
+{% endfor %}
+</div><button type="submit">Predict grade</button>
+</form>
+</div>
+{% if result %}<div class="card">
+<h2>Prediction result</h2>
+<p><strong>Student:</strong> {{ result.student.student_name }}{% if result.student.student_id %} ({{ result.student.student_id }}){% endif %}</p>
+<p><strong>Estimated final score:</strong> {{ result.score }} / 100</p>
+<p><strong>Estimated grade:</strong> {{ result.grade }}</p>
+<p class="small">Method: {{ result.method }}. Predictions should be reviewed by teaching staff and should not be the sole basis for academic decisions.</p>
+</div>{% endif %}
+<a class="nav" href="{% url 'history' %}">View prediction history</a>
+{% endblock %}
